@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Image, StyleSheet } from "react-native";
 
-import FilledButton from "../components/FilledButton";
+import { Button, Text } from "react-native-paper";
 
 const Presentation = ({ navigation }) => {
   return (
@@ -12,19 +12,26 @@ const Presentation = ({ navigation }) => {
           source={require("../../assets/images/cooking.png")}
         />
       </View>
-      <FilledButton
-        title="iniciar sesión"
-        onPress={() => {
-          navigation.navigate("Login");
-        }}
-      />
-      <FilledButton
-        title="registrarse"
-        onPress={() => {
-          navigation.navigate("Register");
-        }}
-        style={styles.registerButton}
-      />
+      <View style={styles.buttonView}>
+        <Button
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Login");
+          }}
+          mode="contained"
+        >
+          <Text style={styles.buttonText}>iniciar sesión</Text>
+        </Button>
+        <Button
+          style={styles.button}
+          onPress={() => {
+            navigation.navigate("Register");
+          }}
+          mode="contained"
+        >
+          <Text style={styles.buttonText}>registrarse</Text>
+        </Button>
+      </View>
     </View>
   );
 };
@@ -37,10 +44,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  registerButton: {
-    margin: 10,
-    backgroundColor: "black",
-  },
   logoContainer: {
     backgroundColor: "white",
     alignSelf: "stretch",
@@ -52,6 +55,16 @@ const styles = StyleSheet.create({
     width: 400,
     height: 300,
     borderRadius: 10,
+  },
+  button: {
+    marginTop: 10,
+    backgroundColor: "black",
+  },
+  buttonText: {
+    color: "white",
+  },
+  buttonView: {
+    alignSelf: "stretch",
   },
 });
 
