@@ -1,6 +1,5 @@
 import { useState } from "react";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { DATABASE_URL } from "../config/";
 
@@ -22,25 +21,20 @@ export function useAuth() {
       password,
     });
 
-    setUserData({
+    const user = {
       id: request.data.user.id,
       firstName: request.data.user.firstName,
       lastName: request.data.user.lastName,
       email: request.data.user.email,
       isAdmin: request.data.user.isAdmin,
-    });
+      token: request.data.token,
+    };
 
-    const token = request.data.token;
-
-    if (token !== undefined) {
-      await AsyncStorage.setItem("token", JSON.stringify(token));
-    } else {
-      throw new Error("usuario o contrasena incorrecta");
-    }
+    setUserData(user);
   };
 
   const userLogout = async () => {
-    await AsyncStorage.removeItem("token");
+    setUserData({});
   };
 
   return { userData, registerUser, loginUser, userLogout };

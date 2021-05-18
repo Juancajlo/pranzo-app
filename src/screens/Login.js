@@ -5,7 +5,7 @@ import { IconButton, TextInput, Button, Text } from "react-native-paper";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Login = ({ navigation }) => {
-  const [email, setEmail] = useState("ariana@gmail.com");
+  const [email, setEmail] = useState("juan@gmail.com");
   const [password, setPassword] = useState("123456");
   const { loginUser } = useContext(AuthContext);
 
@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
           }}
           mode="contained"
         >
-          <Text style={styles.buttonText}>registrarse</Text>
+          <Text style={styles.buttonText}>entrar</Text>
         </Button>
       </View>
     </ScrollView>
