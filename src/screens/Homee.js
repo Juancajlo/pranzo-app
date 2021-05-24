@@ -1,11 +1,14 @@
 import React, { useContext } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
+import { useDispatch } from "react-redux";
+
+import { startLogout } from "../actions/auth";
 
 import { AuthContext } from "../contexts/AuthContext";
 
 const Homee = () => {
-  const { userLogout } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -14,7 +17,7 @@ const Homee = () => {
         icon="logout"
         color={"black"}
         size={50}
-        onPress={() => userLogout()}
+        onPress={() => dispatch(startLogout())}
       />
     </View>
   );

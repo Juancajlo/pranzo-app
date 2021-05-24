@@ -1,15 +1,18 @@
 import React, { useState, useContext } from "react";
 import { ScrollView, StyleSheet, View, Image } from "react-native";
+import { useDispatch } from "react-redux";
 import { IconButton, TextInput, Button, Text } from "react-native-paper";
 
+import { startRegister } from "../actions/auth";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Register = ({ navigation }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const { registerUser } = useContext(AuthContext);
+  const dispatch = useDispatch();
+  const [firstName, setFirstName] = useState("marioo");
+  const [lastName, setLastName] = useState("alaimo");
+  const [email, setEmail] = useState("mariooo@gmail.com");
+  const [password, setPassword] = useState("123456");
+  //const { registerUser } = useContext(AuthContext);
 
   return (
     <ScrollView style={styles.container}>
@@ -71,7 +74,7 @@ const Register = ({ navigation }) => {
         <Button
           style={styles.button}
           onPress={() => {
-            registerUser(firstName, lastName, email, password);
+            dispatch(startRegister(firstName, lastName, email, password));
           }}
           mode="contained"
         >

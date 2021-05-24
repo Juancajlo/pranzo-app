@@ -1,13 +1,16 @@
 import React, { useState, useContext } from "react";
 import { ScrollView, StyleSheet, View, Image } from "react-native";
 import { IconButton, TextInput, Button, Text } from "react-native-paper";
+import { useDispatch } from "react-redux";
 
+import { startLogin } from "../actions/auth";
 import { AuthContext } from "../contexts/AuthContext";
 
 const Login = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("juan@gmail.com");
   const [password, setPassword] = useState("123456");
-  const { loginUser } = useContext(AuthContext);
+  //const { loginUser } = useContext(AuthContext);
 
   return (
     <ScrollView style={styles.container}>
@@ -53,7 +56,7 @@ const Login = ({ navigation }) => {
         <Button
           style={styles.button}
           onPress={() => {
-            loginUser(email, password);
+            dispatch(startLogin(email, password));
           }}
           mode="contained"
         >
