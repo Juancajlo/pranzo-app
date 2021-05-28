@@ -5,7 +5,6 @@ const initialState = {
   firstName: null,
   lastName: null,
   isAdmin: null,
-  token: null,
 };
 
 export const authReducer = (state = initialState, action) => {
@@ -16,7 +15,6 @@ export const authReducer = (state = initialState, action) => {
         firstName: action.payload.firstName,
         lastName: action.payload.lastName,
         isAdmin: action.payload.isAdmin,
-        token: action.payload.token,
       };
 
     case types.logout:
@@ -25,7 +23,6 @@ export const authReducer = (state = initialState, action) => {
         firstName: null,
         lastName: null,
         isAdmin: null,
-        token: null,
       };
 
     default:

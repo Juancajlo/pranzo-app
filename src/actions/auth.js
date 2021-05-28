@@ -24,7 +24,9 @@ export const startLogin = (email, password) => {
 
     const token = request.data.token;
     const admin = request.data.user.isAdmin;
+    const user = request.data.user;
 
+    await AsyncStorage.setItem("user", JSON.stringify(user));
     await AsyncStorage.setItem("token", JSON.stringify(token));
     await AsyncStorage.setItem("admin", JSON.stringify(admin));
 
@@ -33,14 +35,13 @@ export const startLogin = (email, password) => {
         request.data.user.id,
         request.data.user.firstName,
         request.data.user.lastName,
-        request.data.user.isAdmin,
-        request.data.token
+        request.data.user.isAdmin
       )
     );
   };
 };
 
-export const login = (id, firstName, lastName, isAdmin, token) => {
+export const login = (id, firstName, lastName, isAdmin) => {
   return {
     type: types.login,
     payload: {
@@ -48,7 +49,6 @@ export const login = (id, firstName, lastName, isAdmin, token) => {
       firstName,
       lastName,
       isAdmin,
-      token,
     },
   };
 };
@@ -57,6 +57,7 @@ export const startLogout = () => {
   return async (dispatch) => {
     await AsyncStorage.removeItem("token");
     await AsyncStorage.removeItem("admin");
+    await AsyncStorage.removeItem("user");
     dispatch(logout());
   };
 };

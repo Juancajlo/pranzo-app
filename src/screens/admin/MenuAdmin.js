@@ -1,14 +1,24 @@
-import React, { useContext } from "react";
+import React, { useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-import { startLogout } from "../actions/auth";
+import { login, startLogout } from "../../actions/auth";
 
-import { AuthContext } from "../contexts/AuthContext";
-
-const Home = () => {
+const MenuAdmin = () => {
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    handleRedux();
+  }, []);
+
+  const handleRedux = async () => {
+    const user = await JSON.parse(await AsyncStorage.getItem("user"));
+    if (user) {
+      dispatch(login(user.id, user.firstName, user.lastName, user.isAdmin));
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -30,4 +40,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default MenuAdmin;

@@ -6,33 +6,34 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { useSelector } from "react-redux";
 
 import AuthStack from "./src/navigators/AuthStack";
-import AdminStack from "./src/navigators/AdminStack";
-import ClientStack from "./src/navigators/ClientStack";
+import AdminTab from "./src/navigators/AdminTab";
+import ClientTab from "./src/navigators/ClientTab";
 
 const RootStack = createStackNavigator();
 
 function Application() {
   const [token, setToken] = useState("");
   const [admin, setAdmin] = useState("");
-  const stateToken = useSelector((state) => state.auth.token);
+  const stateUser = useSelector((state) => state.auth);
 
   useEffect(() => {
     handleEffect();
-  }, [stateToken]);
+  }, [stateUser]);
 
   const handleEffect = async () => {
     setToken(JSON.parse(await AsyncStorage.getItem("token")));
     setAdmin(JSON.parse(await AsyncStorage.getItem("admin")));
   };
+
   const renderScreens = () => {
     return token ? (
       admin ? (
         <RootStack.Screen name={"AdminStack"}>
-          {() => <AdminStack />}
+          {() => <AdminTab />}
         </RootStack.Screen>
       ) : (
         <RootStack.Screen name={"ClientStack"}>
-          {() => <ClientStack />}
+          {() => <ClientTab />}
         </RootStack.Screen>
       )
     ) : (

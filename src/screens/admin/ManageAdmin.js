@@ -1,22 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { IconButton } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-import { startLogout } from "../actions/auth";
+import { startLogout } from "../../actions/auth";
 
-import { AuthContext } from "../contexts/AuthContext";
-
-const Homee = () => {
+const ManageAdmin = () => {
   const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
-      <Text>HOME CLIENT</Text>
+      <Text>MANAGE ADMIN</Text>
       <IconButton
         icon="logout"
         color={"black"}
-        size={50}
+        size={60}
         onPress={() => dispatch(startLogout())}
       />
     </View>
@@ -30,4 +28,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Homee;
+export default ManageAdmin;
