@@ -1,20 +1,46 @@
 import React from "react";
-import { View, Image, StyleSheet } from "react-native";
+import { View, Image, StyleSheet, Dimensions } from "react-native";
+import { StatusBar } from "expo-status-bar";
 
-import { Button, Text } from "react-native-paper";
+import Swiper from "react-native-swiper";
+import { Button, Text, Title } from "react-native-paper";
+
+const windowWidth = Dimensions.get("window").width;
 
 const Presentation = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/cooking.png")}
-        />
-      </View>
+      <StatusBar style="light" backgroundColor="black" />
+      <Title style={styles.header}>Bienvenido a PRANZO</Title>
+      <Swiper autoplay={true} autoplayTimeout={5} activeDotColor={"black"}>
+        <View style={styles.slide}>
+          <Image
+            source={require("../../assets/images/healthy.jpg")}
+            style={styles.logo}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require("../../assets/images/pasta.jpg")}
+            style={styles.logo}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require("../../assets/images/croissants.jpg")}
+            style={styles.logo}
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require("../../assets/images/salad.jpg")}
+            style={styles.logo}
+          />
+        </View>
+      </Swiper>
       <View style={styles.buttonView}>
         <Button
-          style={styles.button}
+          style={{ ...styles.button, backgroundColor: "red" }}
           onPress={() => {
             navigation.navigate("Login");
           }}
@@ -23,13 +49,13 @@ const Presentation = ({ navigation }) => {
           <Text style={styles.buttonText}>iniciar sesión</Text>
         </Button>
         <Button
-          style={styles.button}
+          style={{ ...styles.button, backgroundColor: "blue" }}
           onPress={() => {
             navigation.navigate("Register");
           }}
           mode="contained"
         >
-          <Text style={styles.buttonText}>registrarse</Text>
+          <Text style={styles.buttonText}>¿no tienes cuenta? registrate</Text>
         </Button>
       </View>
     </View>
@@ -40,31 +66,35 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "white",
-    padding: 5,
     justifyContent: "center",
     alignItems: "center",
   },
-  logoContainer: {
-    backgroundColor: "white",
-    alignSelf: "stretch",
-    justifyContent: "center",
-    alignItems: "center",
+  header: {
+    marginTop: 100,
+    marginBottom: 20,
+    fontSize: 25,
   },
   logo: {
-    marginVertical: 20,
-    width: 400,
-    height: 300,
+    width: windowWidth - 20,
+    height: 400,
     borderRadius: 10,
+  },
+  buttonView: {
+    alignSelf: "stretch",
+    marginBottom: 70,
+    padding: 10,
   },
   button: {
     marginTop: 10,
-    backgroundColor: "black",
+    borderRadius: 10,
   },
   buttonText: {
     color: "white",
   },
-  buttonView: {
-    alignSelf: "stretch",
+  slide: {
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
   },
 });
 

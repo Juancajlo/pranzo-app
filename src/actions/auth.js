@@ -6,38 +6,50 @@ import { DATABASE_URL } from "../config/";
 
 export const startRegister = (firstName, lastName, email, password) => {
   return async (dispatch) => {
-    await axios.post(`${DATABASE_URL}/auth/register`, {
-      firstName,
-      lastName,
-      email,
-      password,
-    });
+    try {
+      await axios.post(`${DATABASE_URL}/auth/register`, {
+        firstName,
+        lastName,
+        email,
+        password,
+      });
+    } catch (e) {
+      throw new Error("Usuario ya existente");
+    }
   };
 };
 
 export const startLogin = (email, password) => {
   return async (dispatch) => {
-    const request = await axios.post(`${DATABASE_URL}/auth/login`, {
-      email,
-      password,
-    });
+    try {
+      const request = await axios.post(`${DATABASE_URL}/auth/login`, {
+        email,
+        password,
+      });
 
-    const token = request.data.token;
-    const admin = request.data.user.isAdmin;
-    const user = request.data.user;
+      if (request.status === 200) {
+        const token = request.data.token;
+        const admin = request.data.user.isAdmin;
+        const user = request.data.user;
 
-    await AsyncStorage.setItem("user", JSON.stringify(user));
-    await AsyncStorage.setItem("token", JSON.stringify(token));
-    await AsyncStorage.setItem("admin", JSON.stringify(admin));
+        await AsyncStorage.setItem("user", JSON.stringify(user));
+        await AsyncStorage.setItem("token", JSON.stringify(token));
+        await AsyncStorage.setItem("admin", JSON.stringify(admin));
 
-    dispatch(
-      login(
-        request.data.user.id,
-        request.data.user.firstName,
-        request.data.user.lastName,
-        request.data.user.isAdmin
-      )
-    );
+        dispatch(
+          login(
+            request.data.user.id,
+            request.data.user.firstName,
+            request.data.user.lastName,
+            request.data.user.isAdmin
+          )
+        );
+      } else {
+        console.log("Login status diferente al 200");
+      }
+    } catch (e) {
+      throw new Error("Usuario o contraseña incorrecta");
+    }
   };
 };
 
@@ -55,10 +67,14 @@ export const login = (id, firstName, lastName, isAdmin) => {
 
 export const startLogout = () => {
   return async (dispatch) => {
-    await AsyncStorage.removeItem("token");
-    await AsyncStorage.removeItem("admin");
-    await AsyncStorage.removeItem("user");
-    dispatch(logout());
+    try {
+      await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("admin");
+      await AsyncStorage.removeItem("user");
+      dispatch(logout());
+    } catch (e) {
+      throw new Error("Ups, algo salió mal al cerrar sesión");
+    }
   };
 };
 

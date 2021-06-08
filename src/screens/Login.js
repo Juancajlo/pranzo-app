@@ -1,97 +1,178 @@
-import React, { useState } from "react";
-import { ScrollView, StyleSheet, View, Image } from "react-native";
-import { IconButton, TextInput, Button, Text } from "react-native-paper";
+import React, { useState, useEffect } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { TextInput, Button, Text, Title } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import Error from "../components/Error";
+import Loading from "../components/Loading";
 import { startLogin } from "../actions/auth";
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [emailColorError, setEmailColorError] = useState("black");
+  const [passwordColorError, setPasswordColorError] = useState("black");
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("juan@gmail.com");
   const [password, setPassword] = useState("123456");
 
+  /*useEffect(() => {
+    setLoading(false);
+    setEmailError("");
+    setPasswordError("");
+    setEmailColorError("black");
+    setPasswordColorError("black");
+    setEmail("");
+    setPassword("");
+  }, []);*/
+
+  const handleSubmit = async (email, password) => {
+    if (!email && !password) {
+      setEmailError("campo de correo obligatorio");
+      setEmailColorError("red");
+      setPasswordError("campo de contraseña obligatorio");
+      setPasswordColorError("red");
+    } else if (!email && password) {
+      if (password.length < 6) {
+        setEmailError("campo de correo obligatorio");
+        setEmailColorError("red");
+        setPasswordError("la contraseña debe ser de al menos 6 caracteres");
+        setPasswordColorError("red");
+      } else {
+        setEmailError("campo de correo obligatorio");
+        setEmailColorError("red");
+        setPasswordError("");
+        setPasswordColorError("black");
+      }
+    } else if (!password && email) {
+      if (!email.includes("@" && ".com")) {
+        setEmailError("ingresar un correo válido");
+        setEmailColorError("red");
+        setPasswordError("campo de contraseña obligatorio");
+        setPasswordColorError("red");
+      } else {
+        setEmailError("");
+        setEmailColorError("black");
+        setPasswordError("campo de contraseña obligatorio");
+        setPasswordColorError("red");
+      }
+    } else {
+      if (!email.includes("@" && ".com") && password.length < 6) {
+        setEmailError("introducir un correo válido");
+        setEmailColorError("red");
+        setPasswordError("la contraseña debe ser de al menos 6 caracteres");
+        setPasswordColorError("red");
+      } else if (email.includes("@" && ".com") && password.length < 6) {
+        setEmailError("");
+        setEmailColorError("black");
+        setPasswordError("la contraseña debe ser de al menos 6 caracteres");
+        setPasswordColorError("red");
+      } else if (!email.includes("@" && ".com") && password.length >= 6) {
+        setPasswordError("");
+        setPasswordColorError("black");
+        setEmailError("ingresar un correo válido");
+        setEmailColorError("red");
+      } else {
+        try {
+          setLoading(true);
+          setEmailError("");
+          setEmailColorError("black");
+          setPasswordError("");
+          setPasswordColorError("black");
+          await dispatch(startLogin(email, password));
+        } catch (e) {
+          setLoading(false);
+          console.log(e.message);
+        }
+      }
+    }
+  };
+
   return (
-    <ScrollView style={styles.container}>
-      <IconButton
-        style={styles.icon}
-        icon="arrow-left"
-        color={"black"}
-        size={25}
-        onPress={() => navigation.pop()}
-      />
-      <View style={styles.logoContainer}>
-        <Image
-          style={styles.logo}
-          source={require("../../assets/images/hamburger.png")}
+    <View style={styles.container}>
+      <ScrollView style={styles.scrollContainer}>
+        <Title style={styles.header}>Iniciar Sesión</Title>
+        <TextInput
+          style={styles.form}
+          mode={"outlined"}
+          theme={{
+            colors: {
+              primary: emailColorError,
+            },
+          }}
+          label="Correo"
+          value={email}
+          onChangeText={setEmail}
+          maxLength={40}
         />
-      </View>
-      <TextInput
-        style={styles.form}
-        mode={"outlined"}
-        label="Correo"
-        value={email}
-        onChangeText={setEmail}
-        maxLength={40}
-      />
-      <TextInput
-        style={styles.form}
-        mode={"outlined"}
-        label="Contraseña"
-        value={password}
-        onChangeText={setPassword}
-        maxLength={10}
-      />
-      <View style={styles.buttonView}>
+        <Error error={emailError} />
+        <TextInput
+          style={styles.form}
+          mode={"outlined"}
+          theme={{
+            colors: {
+              primary: passwordColorError,
+            },
+          }}
+          label="Contraseña"
+          value={password}
+          onChangeText={setPassword}
+          maxLength={10}
+        />
+        <Error error={passwordError} />
         <Button
-          style={styles.button}
+          style={{ ...styles.button, backgroundColor: "red" }}
           onPress={() => {
             navigation.navigate("Presentation");
           }}
           mode="contained"
         >
-          <Text style={styles.buttonText}>cancelar</Text>
+          <Text style={styles.buttonText}>volver</Text>
         </Button>
         <Button
-          style={styles.button}
+          style={{ ...styles.button, backgroundColor: "blue" }}
           onPress={() => {
-            dispatch(startLogin(email, password));
+            try {
+              handleSubmit(email, password);
+            } catch (e) {
+              setLoading(false);
+              console.log("Error en botón entrar:" + e.message);
+            }
           }}
           mode="contained"
         >
           <Text style={styles.buttonText}>entrar</Text>
         </Button>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <Loading loading={loading} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "white",
+  },
+  scrollContainer: {
     padding: 10,
-    backgroundColor: "white",
   },
-  logoContainer: {
-    backgroundColor: "white",
-    alignSelf: "stretch",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  logo: {
-    marginVertical: 20,
-    width: 400,
-    height: 300,
-    borderRadius: 10,
-  },
-  icon: {
-    marginTop: 50,
+  header: {
+    marginTop: 200,
+    marginBottom: 20,
+    fontSize: 25,
   },
   form: {
     marginTop: 10,
     backgroundColor: "white",
   },
-  buttonView: {
+  button: {
     marginTop: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "white",
   },
 });
 
