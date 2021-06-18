@@ -3,6 +3,7 @@ import { View, StyleSheet, ScrollView } from "react-native";
 import { TextInput, Button, Text, Title } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import { normalGreen, palidGreen, normalGray } from "../utils/colors";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
 import { startLogin } from "../actions/auth";
@@ -91,7 +92,7 @@ const Login = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollContainer}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Title style={styles.header}>Iniciar Sesión</Title>
         <TextInput
           style={styles.form}
@@ -122,16 +123,7 @@ const Login = ({ navigation }) => {
         />
         <Error error={passwordError} />
         <Button
-          style={{ ...styles.button, backgroundColor: "red" }}
-          onPress={() => {
-            navigation.navigate("Presentation");
-          }}
-          mode="contained"
-        >
-          <Text style={styles.buttonText}>volver</Text>
-        </Button>
-        <Button
-          style={{ ...styles.button, backgroundColor: "blue" }}
+          style={{ ...styles.button, backgroundColor: palidGreen }}
           onPress={() => {
             try {
               handleSubmit(email, password);
@@ -143,6 +135,15 @@ const Login = ({ navigation }) => {
           mode="contained"
         >
           <Text style={styles.buttonText}>entrar</Text>
+        </Button>
+        <Button
+          style={{ ...styles.button, backgroundColor: normalGreen }}
+          onPress={() => {
+            navigation.navigate("Presentation");
+          }}
+          mode="contained"
+        >
+          <Text style={styles.buttonText}>volver</Text>
         </Button>
       </ScrollView>
       <Loading loading={loading} />
@@ -156,12 +157,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
     padding: 10,
   },
   header: {
-    marginTop: 200,
     marginBottom: 20,
-    fontSize: 25,
+    fontSize: 30,
   },
   form: {
     marginTop: 10,
@@ -172,7 +174,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    color: "white",
+    color: normalGray,
+    fontWeight: "bold",
   },
 });
 

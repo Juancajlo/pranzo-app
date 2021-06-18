@@ -11,6 +11,7 @@ import {
 import { IconButton } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import { DATABASE_URL } from "../../config/";
 import { startLogout } from "../../actions/auth";
 
 const MenuClient = () => {
@@ -18,8 +19,7 @@ const MenuClient = () => {
   const [images, setImages] = useState(null);
 
   useEffect(() => {
-    axios.get("https://pranzo-api.herokuapp.com/api/dishes/").then((resp) => {
-      //console.log(resp.data.dishes);
+    axios.get(`${DATABASE_URL}/dishes/`).then((resp) => {
       setImages(resp.data.dishes);
     });
   }, []);

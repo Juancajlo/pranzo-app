@@ -1,9 +1,10 @@
 import React from "react";
 import { View, Image, StyleSheet, Dimensions } from "react-native";
 import { StatusBar } from "expo-status-bar";
-
 import Swiper from "react-native-swiper";
 import { Button, Text, Title } from "react-native-paper";
+
+import { normalGray, normalGreen, palidGreen } from "../utils/colors";
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -11,7 +12,7 @@ const Presentation = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <StatusBar style="light" backgroundColor="black" />
-      <Title style={styles.header}>Bienvenido a PRANZO</Title>
+      <Title style={styles.header}>¡Bienvenido!</Title>
       <Swiper autoplay={true} autoplayTimeout={5} activeDotColor={"black"}>
         <View style={styles.slide}>
           <Image
@@ -40,7 +41,7 @@ const Presentation = ({ navigation }) => {
       </Swiper>
       <View style={styles.buttonView}>
         <Button
-          style={{ ...styles.button, backgroundColor: "red" }}
+          style={{ ...styles.button, backgroundColor: normalGreen }}
           onPress={() => {
             navigation.navigate("Login");
           }}
@@ -49,7 +50,7 @@ const Presentation = ({ navigation }) => {
           <Text style={styles.buttonText}>iniciar sesión</Text>
         </Button>
         <Button
-          style={{ ...styles.button, backgroundColor: "blue" }}
+          style={{ ...styles.button, backgroundColor: palidGreen }}
           onPress={() => {
             navigation.navigate("Register");
           }}
@@ -72,12 +73,12 @@ const styles = StyleSheet.create({
   header: {
     marginTop: 100,
     marginBottom: 20,
-    fontSize: 25,
+    fontSize: 30,
   },
   logo: {
     width: windowWidth - 20,
     height: 400,
-    borderRadius: 10,
+    borderRadius: 140,
   },
   buttonView: {
     alignSelf: "stretch",
@@ -89,7 +90,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    color: "white",
+    color: normalGray,
+    fontWeight: "bold",
   },
   slide: {
     justifyContent: "center",

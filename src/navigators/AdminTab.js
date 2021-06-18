@@ -1,18 +1,44 @@
 import React from "react";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import Ionicons from "@expo/vector-icons/Ionicons";
 
+import { normalGray, palidGreen } from "../utils/colors";
 import MenuAdmin from "../screens/admin/MenuAdmin";
 import ManageAdmin from "../screens/admin/ManageAdmin";
 import AccountsAdmin from "../screens/admin/AccountsAdmin";
 
-const AdminTab = createBottomTabNavigator();
+const AdminTab = createMaterialBottomTabNavigator();
 
 const AdminTabNavigator = () => {
   return (
-    <AdminTab.Navigator>
-      <AdminTab.Screen name="MenuAdmin" component={MenuAdmin} />
-      <AdminTab.Screen name="ManageAdmin" component={ManageAdmin} />
-      <AdminTab.Screen name="AccountsAdmin" component={AccountsAdmin} />
+    <AdminTab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          let iconName;
+          let size = 23;
+          if (route.name === "Menú") {
+            iconName = "grid-outline";
+          } else if (route.name === "Administrar") {
+            iconName = "stats-chart-outline";
+          } else if (route.name === "Cuentas") {
+            iconName = "key-outline";
+          }
+
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+      })}
+      barStyle={{ backgroundColor: normalGray }}
+      activeColor={palidGreen}
+      shifting={true}
+      labeled={true}
+    >
+      <AdminTab.Screen
+        name="Menú"
+        component={MenuAdmin}
+        options={{ tabBarBadge: 0 }}
+      />
+      <AdminTab.Screen name="Administrar" component={ManageAdmin} />
+      <AdminTab.Screen name="Cuentas" component={AccountsAdmin} />
     </AdminTab.Navigator>
   );
 };

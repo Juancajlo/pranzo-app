@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import { TextInput, Button, Text, Title } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import { normalGreen, palidGreen, normalGray } from "../utils/colors";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
 import { startRegister } from "../actions/auth";
@@ -193,8 +194,28 @@ const Register = ({ navigation }) => {
           setPasswordError("");
           setPasswordColorError("black");
           await dispatch(startRegister(firstName, lastName, email, password));
+          Alert.alert("Éxito", "Usuario fue registrado exitosamente", [
+            {
+              text: "OK",
+              onPress: () => {
+                setLoading(false);
+                navigation.navigate("Login");
+              },
+            },
+          ]);
         } catch (e) {
-          setLoading(false);
+          Alert.alert(
+            "Error",
+            "Usuario ya existente, intente con otro correo",
+            [
+              {
+                text: "OK",
+                onPress: () => {
+                  setLoading(false);
+                },
+              },
+            ]
+          );
           console.log(e.message);
         }
       } else if (
@@ -408,7 +429,8 @@ const Register = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <ScrollView style={styles.scrollContainer}>
+      <View style={{ height: 30 }}></View>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
         <Title style={styles.header}>Registro</Title>
         <TextInput
           style={styles.form}
@@ -467,16 +489,7 @@ const Register = ({ navigation }) => {
         />
         <Error error={passwordError} />
         <Button
-          style={{ ...styles.button, backgroundColor: "red" }}
-          onPress={() => {
-            navigation.navigate("Presentation");
-          }}
-          mode="contained"
-        >
-          <Text style={styles.buttonText}>volver</Text>
-        </Button>
-        <Button
-          style={{ ...styles.button, backgroundColor: "blue" }}
+          style={{ ...styles.button, backgroundColor: palidGreen }}
           onPress={() => {
             try {
               handleSubmit(firstName, lastName, email, password);
@@ -488,6 +501,15 @@ const Register = ({ navigation }) => {
           mode="contained"
         >
           <Text style={styles.buttonText}>registrarse</Text>
+        </Button>
+        <Button
+          style={{ ...styles.button, backgroundColor: normalGreen }}
+          onPress={() => {
+            navigation.navigate("Presentation");
+          }}
+          mode="contained"
+        >
+          <Text style={styles.buttonText}>volver</Text>
         </Button>
       </ScrollView>
       <Loading loading={loading} />
@@ -501,12 +523,13 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
   },
   scrollContainer: {
+    flexGrow: 1,
+    justifyContent: "center",
     padding: 10,
   },
   header: {
-    marginTop: 150,
     marginBottom: 20,
-    fontSize: 25,
+    fontSize: 30,
   },
   form: {
     marginTop: 10,
@@ -517,7 +540,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   buttonText: {
-    color: "white",
+    color: normalGray,
+    fontWeight: "bold",
   },
 });
 
