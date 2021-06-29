@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Provider as PaperProvider } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
+import { login } from "./src/actions/auth";
 import AuthStack from "./src/navigators/AuthStack";
 import AdminTab from "./src/navigators/AdminTab";
 import ClientTab from "./src/navigators/ClientTab";
@@ -12,22 +13,23 @@ import ClientTab from "./src/navigators/ClientTab";
 const RootStack = createStackNavigator();
 
 function Application() {
-  const [token, setToken] = useState("");
-  const [admin, setAdmin] = useState("");
+  const dispatch = useDispatch();
   const stateUser = useSelector((state) => state.auth);
 
   useEffect(() => {
     handleEffect();
-  }, [stateUser]);
+  }, []);
 
   const handleEffect = async () => {
-    setToken(JSON.parse(await AsyncStorage.getItem("token")));
-    setAdmin(JSON.parse(await AsyncStorage.getItem("admin")));
+    const user = await JSON.parse(await AsyncStorage.getItem("user"));
+    if (user) {
+      dispatch(login(user.id, user.firstName, user.lastName, user.isAdmin));
+    }
   };
 
   const renderScreens = () => {
-    return token ? (
-      admin ? (
+    return stateUser.id ? (
+      stateUser.isAdmin ? (
         <RootStack.Screen name={"AdminStack"}>
           {() => <AdminTab />}
         </RootStack.Screen>

@@ -32,11 +32,7 @@ const AdminTabNavigator = () => {
       shifting={true}
       labeled={true}
     >
-      <AdminTab.Screen
-        name="Menú"
-        component={MenuAdmin}
-        options={{ tabBarBadge: 0 }}
-      />
+      <AdminTab.Screen name="Menú" component={MenuAdmin} />
       <AdminTab.Screen name="Administrar" component={ManageAdmin} />
       <AdminTab.Screen name="Cuentas" component={AccountsAdmin} />
     </AdminTab.Navigator>

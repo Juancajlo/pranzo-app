@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import { TextInput, Button, Text, Title } from "react-native-paper";
 import { useDispatch } from "react-redux";
@@ -24,21 +24,21 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  /*useEffect(() => {
+  useEffect(() => {
     setLoading(false);
-    setFirstNameError('');
-    setLastNameError('');
+    setFirstNameError("");
+    setLastNameError("");
     setEmailError("");
     setPasswordError("");
     setFirstNameColorError("black");
     setLastNameColorError("black");
     setEmailColorError("black");
     setPasswordColorError("black");
-    setFirstName('');
-    setLastName('');
+    setFirstName("");
+    setLastName("");
     setEmail("");
     setPassword("");
-  }, []);*/
+  }, []);
 
   const handleSubmit = async (firstName, lastName, email, password) => {
     if (!firstName && lastName && email && password) {
@@ -472,6 +472,8 @@ const Register = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
           maxLength={40}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
         <Error error={emailError} />
         <TextInput
@@ -486,6 +488,7 @@ const Register = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
           maxLength={10}
+          secureTextEntry
         />
         <Error error={passwordError} />
         <Button
@@ -512,7 +515,7 @@ const Register = ({ navigation }) => {
           <Text style={styles.buttonText}>volver</Text>
         </Button>
       </ScrollView>
-      <Loading loading={loading} />
+      <Loading loading={loading} display={"Cargando..."} color={normalGreen} />
     </View>
   );
 };

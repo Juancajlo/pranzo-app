@@ -28,13 +28,8 @@ export const startLogin = (email, password) => {
       });
 
       if (request.status === 200) {
-        const token = request.data.token;
-        const admin = request.data.user.isAdmin;
         const user = request.data.user;
-
         await AsyncStorage.setItem("user", JSON.stringify(user));
-        await AsyncStorage.setItem("token", JSON.stringify(token));
-        await AsyncStorage.setItem("admin", JSON.stringify(admin));
 
         dispatch(
           login(
@@ -68,7 +63,7 @@ export const login = (id, firstName, lastName, isAdmin) => {
 export const startLogout = () => {
   return async (dispatch) => {
     try {
-      await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("id");
       await AsyncStorage.removeItem("admin");
       await AsyncStorage.removeItem("user");
       dispatch(logout());

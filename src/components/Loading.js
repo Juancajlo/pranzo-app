@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, ActivityIndicator, Text } from "react-native";
 
-const Loading = ({ loading }) => {
+const Loading = ({ loading, display, color }) => {
   if (!loading) {
     return <View />;
   }
@@ -9,8 +9,8 @@ const Loading = ({ loading }) => {
   return (
     <View style={styles.overlay}>
       <View style={styles.container}>
-        <ActivityIndicator size="small" color="black" />
-        <Text style={styles.text}>Cargando...</Text>
+        <ActivityIndicator size="small" color={color} />
+        <Text style={styles.text}>{display}</Text>
       </View>
     </View>
   );

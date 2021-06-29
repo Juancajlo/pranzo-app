@@ -3,4 +3,8 @@ export const types = {
   logout: "[Auth] Logout",
 
   getMenu: "[Menu] Get Menu",
+
+  increment: "[Cart] Item added",
+  decrement: "[Cart] Item deleted",
+  cartLogout: "[Cart] logout",
 };

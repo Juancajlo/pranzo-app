@@ -3,6 +3,7 @@ import thunk from "redux-thunk";
 
 import { authReducer } from "../reducers/authReducer";
 import { menuReducer } from "../reducers/menuReducer";
+import { cartReducer } from "../reducers/cartReducer";
 
 const composeEnhancers =
   (typeof window !== "undefined" &&
@@ -12,6 +13,7 @@ const composeEnhancers =
 const reducers = combineReducers({
   auth: authReducer,
   menu: menuReducer,
+  cart: cartReducer,
 });
 
 export const store = createStore(

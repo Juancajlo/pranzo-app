@@ -8,7 +8,6 @@ import {
   Image,
   Platform,
   ScrollView,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import {
@@ -33,7 +32,8 @@ import { login, startLogout } from "../../actions/auth";
 const MenuAdmin = () => {
   const dispatch = useDispatch();
   const [stateMenu, setStateMenu] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [image, setImage] = useState(null);
   const [menuImages, setMenuImages] = useState(null);
@@ -50,7 +50,6 @@ const MenuAdmin = () => {
   }, [stateMenu]);
 
   useEffect(() => {
-    setLoading(false);
     handleRedux();
   }, []);
 
@@ -86,7 +85,22 @@ const MenuAdmin = () => {
     try {
       await axios.delete(`${DATABASE_URL}/dishes/${id}`);
       setStateMenu(!stateMenu);
+      setDeleteLoading(true);
+      Alert.alert("Éxito", "El plato fue eliminado exitosamente", [
+        {
+          text: "OK",
+          onPress: () => {
+            setDeleteLoading(false);
+          },
+        },
+      ]);
     } catch (e) {
+      setDeleteLoading(false);
+      Alert.alert("Error", "Hubo un problema eliminando el plato", [
+        {
+          text: "OK",
+        },
+      ]);
       console.log("Error eliminando plato del menú:" + e.message);
     }
   };
@@ -148,7 +162,8 @@ const MenuAdmin = () => {
 
     try {
       const response = await axios.post(`${DATABASE_URL}/dishes/`, params);
-      setImage("" + response.data.dish.dishPicture);
+      setImage(response.data.dish.dishPicture);
+      setModalLoading(true);
       setStateMenu(!stateMenu);
       setFetching(false);
       Alert.alert("Éxito", "El plato fue guardado exitosamente", [
@@ -156,6 +171,7 @@ const MenuAdmin = () => {
           text: "OK",
           onPress: () => {
             hideModal();
+            setModalLoading(false);
           },
         },
       ]);
@@ -173,6 +189,20 @@ const MenuAdmin = () => {
   return (
     <View style={styles.container}>
       <Portal>
+        {menuImages ? (
+          <></>
+        ) : (
+          <Loading
+            loading={true}
+            display={"Cargando menú..."}
+            color={normalGreen}
+          />
+        )}
+        <Loading
+          loading={deleteLoading}
+          display={"Eliminando plato..."}
+          color={normalGreen}
+        />
         <Modal
           visible={visible}
           onDismiss={() => {
@@ -243,6 +273,11 @@ const MenuAdmin = () => {
               </Button>
             </ScrollView>
           </View>
+          <Loading
+            loading={modalLoading}
+            display={"Añadiendo plato..."}
+            color={normalGreen}
+          />
         </Modal>
       </Portal>
       <View style={styles.headerView}>
@@ -252,10 +287,9 @@ const MenuAdmin = () => {
         <View style={styles.iconView}>
           <IconButton
             icon="logout-variant"
-            color={"black"}
+            color={normalGreen}
             size={35}
             onPress={() => {
-              setLoading(true);
               dispatch(startLogout());
             }}
           />
@@ -282,30 +316,48 @@ const MenuAdmin = () => {
                   style={{ borderRadius: 5 }}
                 />
                 <Card.Content style={styles.cardTitleContent}>
-                  <Title>{data.name}</Title>
-                  <IconButton
-                    icon="delete-circle"
-                    color={"black"}
-                    size={30}
-                    onPress={() => deleteDish(data.id)}
-                  />
-                </Card.Content>
-                <Card.Content>
-                  <Paragraph>{data.description}</Paragraph>
+                  <View
+                    style={{ flex: 1, flexDirection: "row", width: "100%" }}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "column",
+                        flex: 3,
+                      }}
+                    >
+                      <Title style={{ alignSelf: "flex-start" }}>
+                        {data.name}
+                      </Title>
+                      <Paragraph style={{ alignSelf: "flex-start" }}>
+                        {data.description}
+                      </Paragraph>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        alignItems: "flex-end",
+                      }}
+                    >
+                      <IconButton
+                        icon="delete"
+                        color={normalGreen}
+                        size={35}
+                        onPress={() => {
+                          deleteDish(data.id);
+                        }}
+                      />
+                    </View>
+                  </View>
                 </Card.Content>
               </Card>
             );
           })}
         </ScrollView>
       ) : (
-        <View style={styles.loadingOverlay}>
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="small" color="black" />
-            <Text style={styles.loadingText}>Cargando menú...</Text>
-          </View>
-        </View>
+        <ScrollView
+          style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}
+        ></ScrollView>
       )}
-      <Loading loading={loading} />
     </View>
   );
 };
@@ -388,8 +440,7 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   cardContainer: {
-    marginTop: 10,
-    marginHorizontal: 10,
+    margin: 10,
   },
   cardTitleContent: {
     flexDirection: "row",

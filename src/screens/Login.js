@@ -15,10 +15,10 @@ const Login = ({ navigation }) => {
   const [emailColorError, setEmailColorError] = useState("black");
   const [passwordColorError, setPasswordColorError] = useState("black");
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState("juan@gmail.com");
-  const [password, setPassword] = useState("123456");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  /*useEffect(() => {
+  useEffect(() => {
     setLoading(false);
     setEmailError("");
     setPasswordError("");
@@ -26,7 +26,7 @@ const Login = ({ navigation }) => {
     setPasswordColorError("black");
     setEmail("");
     setPassword("");
-  }, []);*/
+  }, []);
 
   const handleSubmit = async (email, password) => {
     if (!email && !password) {
@@ -106,6 +106,8 @@ const Login = ({ navigation }) => {
           value={email}
           onChangeText={setEmail}
           maxLength={40}
+          keyboardType="email-address"
+          autoCapitalize="none"
         />
         <Error error={emailError} />
         <TextInput
@@ -120,6 +122,7 @@ const Login = ({ navigation }) => {
           value={password}
           onChangeText={setPassword}
           maxLength={10}
+          secureTextEntry
         />
         <Error error={passwordError} />
         <Button
@@ -146,7 +149,7 @@ const Login = ({ navigation }) => {
           <Text style={styles.buttonText}>volver</Text>
         </Button>
       </ScrollView>
-      <Loading loading={loading} />
+      <Loading loading={loading} display={"Cargando..."} color={normalGreen} />
     </View>
   );
 };
