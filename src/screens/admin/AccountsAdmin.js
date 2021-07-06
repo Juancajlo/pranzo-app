@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import { View, StyleSheet, ScrollView, ImageBackground } from "react-native";
 import { IconButton, Title, Card, Button, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
@@ -11,46 +11,60 @@ const AccountsAdmin = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerView}>
-        <View style={styles.headerFontView}>
-          <Title style={styles.headerFont}>Cuentas Bancarias</Title>
-        </View>
-        <View style={styles.iconView}>
-          <IconButton
-            icon="logout-variant"
-            color={normalGreen}
-            size={35}
-            onPress={() => {
-              dispatch(startLogout());
-            }}
-          />
-        </View>
-      </View>
-      <Button
-        style={{
-          ...styles.button,
-          backgroundColor: palidGreen,
-          marginBottom: 20,
-        }}
-        mode="contained"
+      <ImageBackground
+        source={require("../../../assets/images/pranzo.png")}
+        style={styles.image}
       >
-        <Text style={styles.buttonText}>agregar cuenta bancaria</Text>
-      </Button>
-      <ScrollView style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
-        <Card style={styles.cardContainer}>
-          <Card.Content style={styles.cardTitleContent}>
-            <Title
-              style={{
-                alignSelf: "center",
-                fontWeight: "bold",
-                fontSize: 21,
-              }}
-            >
-              No tienes cuentas bancarias
-            </Title>
-          </Card.Content>
-        </Card>
-      </ScrollView>
+        <View
+          style={{
+            backgroundColor: "white",
+            borderBottomRightRadius: 60,
+            borderBottomLeftRadius: 60,
+            elevation: 6,
+          }}
+        >
+          <View style={styles.headerView}>
+            <View style={styles.headerFontView}>
+              <Title style={styles.headerFont}>Cuentas Bancarias</Title>
+            </View>
+            <View style={styles.iconView}>
+              <IconButton
+                icon="logout-variant"
+                color={palidGreen}
+                size={35}
+                onPress={() => {
+                  dispatch(startLogout());
+                }}
+              />
+            </View>
+          </View>
+          <Button
+            style={{
+              ...styles.button,
+              backgroundColor: palidGreen,
+              marginBottom: 20,
+            }}
+            mode="contained"
+          >
+            <Text style={styles.buttonText}>agregar cuenta bancaria</Text>
+          </Button>
+        </View>
+        <ScrollView style={{ flex: 1 }}>
+          <Card style={styles.cardContainer}>
+            <Card.Content style={styles.cardTitleContent}>
+              <Title
+                style={{
+                  alignSelf: "center",
+                  fontWeight: "bold",
+                  fontSize: 21,
+                }}
+              >
+                No tienes cuentas bancarias
+              </Title>
+            </Card.Content>
+          </Card>
+        </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
@@ -58,10 +72,11 @@ const AccountsAdmin = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
   },
   headerView: {
-    marginVertical: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
     flexDirection: "row",
   },
   headerFontView: {
@@ -71,7 +86,7 @@ const styles = StyleSheet.create({
   },
   headerFont: {
     fontSize: 30,
-    marginLeft: 10,
+    fontWeight: "bold",
   },
   iconView: {
     width: "20%",
@@ -79,7 +94,9 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   cardContainer: {
-    margin: 10,
+    margin: 20,
+    borderRadius: 30,
+    elevation: 6,
   },
   cardTitleContent: {
     flexDirection: "column",
@@ -88,11 +105,16 @@ const styles = StyleSheet.create({
   },
   button: {
     marginHorizontal: 50,
-    borderRadius: 10,
+    borderRadius: 60,
   },
   buttonText: {
     color: normalGray,
     fontWeight: "bold",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 });
 

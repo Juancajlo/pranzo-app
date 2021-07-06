@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { View, StyleSheet, ScrollView, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Alert,
+  ImageBackground,
+} from "react-native";
 import {
   IconButton,
   Title,
@@ -60,95 +66,112 @@ const MenuClient = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.headerView}>
-        <View style={styles.headerFontView}>
-          <Title style={styles.headerFont}>Menú</Title>
-          <Subheading style={styles.subHeaderFont}>
-            Escoja 5 platos de su preferencia para realizar el pedido
-          </Subheading>
+      <ImageBackground
+        source={require("../../../assets/images/pranzo.png")}
+        style={styles.image}
+      >
+        <View
+          style={{
+            marginBottom: 20,
+            backgroundColor: "white",
+            borderBottomRightRadius: 60,
+            borderBottomLeftRadius: 60,
+            elevation: 6,
+          }}
+        >
+          <View style={styles.headerView}>
+            <View style={styles.headerFontView}>
+              <Title style={styles.headerFont}>Menú</Title>
+              <Subheading style={styles.subHeaderFont}>
+                Escoja 5 platos de su preferencia para realizar el pedido
+              </Subheading>
+            </View>
+            <View style={styles.iconView}>
+              <IconButton
+                icon="logout-variant"
+                color={palidGreen}
+                size={35}
+                onPress={() => {
+                  dispatch(startLogout());
+                  dispatch(cartLogout());
+                }}
+              />
+            </View>
+          </View>
         </View>
-        <View style={styles.iconView}>
-          <IconButton
-            icon="logout-variant"
-            color={normalGreen}
-            size={35}
-            onPress={() => {
-              dispatch(startLogout());
-              dispatch(cartLogout());
-            }}
-          />
-        </View>
-      </View>
-      {menuImages ? (
-        <ScrollView style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
-          {menuImages.map((data, index) => {
-            return (
-              <Card key={index} style={styles.cardContainer}>
-                <Card.Cover
-                  source={{ uri: "data:image/jpeg;base64," + data.dishPicture }}
-                  style={{ borderRadius: 5 }}
-                />
-                <Card.Content style={styles.cardTitleContent}>
-                  <View
-                    style={{ flex: 1, flexDirection: "row", width: "100%" }}
-                  >
+        {menuImages ? (
+          <ScrollView style={{ flex: 1 }}>
+            {menuImages.map((data, index) => {
+              return (
+                <Card key={index} style={styles.cardContainer}>
+                  <Card.Cover
+                    source={{
+                      uri: "data:image/jpeg;base64," + data.dishPicture,
+                    }}
+                    style={{ borderRadius: 5 }}
+                  />
+                  <Card.Content style={styles.cardTitleContent}>
                     <View
-                      style={{
-                        flexDirection: "column",
-                        flex: 3,
-                      }}
+                      style={{ flex: 1, flexDirection: "row", width: "100%" }}
                     >
-                      <Title style={{ alignSelf: "flex-start" }}>
-                        {data.name}
-                      </Title>
-                      <Paragraph style={{ alignSelf: "flex-start" }}>
-                        {data.description}
-                      </Paragraph>
-                    </View>
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: "flex-end",
-                      }}
-                    >
-                      <IconButton
-                        icon="plus-box"
-                        color={normalGreen}
-                        size={40}
-                        onPress={() => {
-                          if (cartItems >= 5) {
-                            Alert.alert(
-                              "Lo sentimos",
-                              "solo puedes ordenar 5 platos",
-                              [
-                                {
-                                  text: "Ir a carrito",
-                                  onPress: () => {
-                                    navigation.navigate("Carrito");
-                                  },
-                                },
-                                {
-                                  text: "OK",
-                                },
-                              ]
-                            );
-                          } else {
-                            onAdd(menuImages[index]);
-                          }
+                      <View
+                        style={{
+                          flexDirection: "column",
+                          flex: 3,
                         }}
-                      />
+                      >
+                        <Title style={{ alignSelf: "flex-start" }}>
+                          {data.name}
+                        </Title>
+                        <Paragraph style={{ alignSelf: "flex-start" }}>
+                          {data.description}
+                        </Paragraph>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
+                          alignItems: "flex-end",
+                        }}
+                      >
+                        <IconButton
+                          icon="plus-box"
+                          color={palidGreen}
+                          size={40}
+                          onPress={() => {
+                            if (cartItems >= 5) {
+                              Alert.alert(
+                                "Lo sentimos",
+                                "solo puedes ordenar 5 platos",
+                                [
+                                  {
+                                    text: "Ir a carrito",
+                                    onPress: () => {
+                                      navigation.navigate("Carrito");
+                                    },
+                                  },
+                                  {
+                                    text: "OK",
+                                  },
+                                ]
+                              );
+                            } else {
+                              onAdd(menuImages[index]);
+                            }
+                          }}
+                        />
+                      </View>
                     </View>
-                  </View>
-                </Card.Content>
-              </Card>
-            );
-          })}
-        </ScrollView>
-      ) : (
-        <ScrollView
-          style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-        ></ScrollView>
-      )}
+                  </Card.Content>
+                </Card>
+              );
+            })}
+          </ScrollView>
+        ) : (
+          <ScrollView
+            style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}
+          ></ScrollView>
+        )}
+      </ImageBackground>
     </View>
   );
 };
@@ -156,10 +179,11 @@ const MenuClient = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
   },
   headerView: {
-    marginVertical: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
     flexDirection: "row",
   },
   headerFontView: {
@@ -169,32 +193,31 @@ const styles = StyleSheet.create({
   },
   headerFont: {
     fontSize: 30,
-    marginLeft: 10,
+    fontWeight: "bold",
   },
   subHeaderFont: {
     fontSize: 15,
-    marginLeft: 10,
+    marginBottom: 20,
   },
   iconView: {
     width: "20%",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "flex-end",
   },
-  button: {
-    borderRadius: 10,
-    backgroundColor: palidGreen,
-  },
-  buttonText: {
-    color: normalGray,
-    fontWeight: "bold",
-  },
   cardContainer: {
-    margin: 10,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    elevation: 6,
   },
   cardTitleContent: {
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 });
 

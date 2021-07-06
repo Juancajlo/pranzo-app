@@ -9,6 +9,7 @@ import {
   Platform,
   ScrollView,
   Alert,
+  ImageBackground,
 } from "react-native";
 import {
   IconButton,
@@ -188,176 +189,203 @@ const MenuAdmin = () => {
 
   return (
     <View style={styles.container}>
-      <Portal>
-        {menuImages ? (
-          <></>
-        ) : (
-          <Loading
-            loading={true}
-            display={"Cargando menú..."}
-            color={normalGreen}
-          />
-        )}
-        <Loading
-          loading={deleteLoading}
-          display={"Eliminando plato..."}
-          color={normalGreen}
-        />
-        <Modal
-          visible={visible}
-          onDismiss={() => {
-            hideModal();
-            setFileObj(null);
-            setImage(null);
-          }}
-          contentContainerStyle={styles.modalContainer}
-        >
-          <View>
-            <ScrollView>
-              <View style={styles.modalViewTitle}>
-                <Title style={{ fontSize: 23, paddingVertical: 10 }}>
-                  Añadir plato al menú
-                </Title>
-              </View>
-              <Image
-                source={{ uri: "data:image/jpeg;base64," + image }}
-                style={styles.modalImage}
-              />
-              <TextInput
-                style={styles.modalForm}
-                mode={"outlined"}
-                theme={{
-                  colors: {
-                    primary: "black",
-                  },
-                }}
-                label="Nombre"
-                onChangeText={(text) => {
-                  handleChange({ name: "name", value: text });
-                }}
-                maxLength={25}
-                editable={!fetching}
-              />
-              <TextInput
-                style={styles.modalForm}
-                mode={"outlined"}
-                theme={{
-                  colors: {
-                    primary: "black",
-                  },
-                }}
-                label="Descripción"
-                onChangeText={(text) => {
-                  handleChange({ name: "description", value: text });
-                }}
-                maxLength={200}
-                multiline={true}
-                editable={!fetching}
-              />
-              <Error error={fileObjError} />
-              <Button
-                style={{ ...styles.modalButton, backgroundColor: palidGreen }}
-                onPress={pickImage}
-                disabled={fetching}
-                mode="contained"
-              >
-                <Text style={styles.modalButtonText}>escoger imágen</Text>
-              </Button>
-              <Button
-                style={{ ...styles.modalButton, backgroundColor: normalGreen }}
-                onPress={handleAddDishModalError}
-                disabled={fetching}
-                mode="contained"
-              >
-                <Text style={styles.modalButtonText}>guardar</Text>
-              </Button>
-            </ScrollView>
-          </View>
-          <Loading
-            loading={modalLoading}
-            display={"Añadiendo plato..."}
-            color={normalGreen}
-          />
-        </Modal>
-      </Portal>
-      <View style={styles.headerView}>
-        <View style={styles.headerFontView}>
-          <Title style={styles.headerFont}>Menú</Title>
-        </View>
-        <View style={styles.iconView}>
-          <IconButton
-            icon="logout-variant"
-            color={normalGreen}
-            size={35}
-            onPress={() => {
-              dispatch(startLogout());
-            }}
-          />
-        </View>
-      </View>
-      <Button
-        style={{
-          ...styles.button,
-          backgroundColor: palidGreen,
-          marginBottom: 20,
-        }}
-        onPress={showModal}
-        mode="contained"
+      <ImageBackground
+        source={require("../../../assets/images/pranzo.png")}
+        style={styles.image}
       >
-        <Text style={styles.buttonText}>agregar plato</Text>
-      </Button>
-      {menuImages ? (
-        <ScrollView style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
-          {menuImages.map((data, index) => {
-            return (
-              <Card key={index} style={styles.cardContainer}>
-                <Card.Cover
-                  source={{ uri: "data:image/jpeg;base64," + data.dishPicture }}
-                  style={{ borderRadius: 5 }}
+        <Portal>
+          {menuImages ? (
+            <></>
+          ) : (
+            <Loading
+              loading={true}
+              display={"Cargando menú..."}
+              color={normalGreen}
+            />
+          )}
+          <Loading
+            loading={deleteLoading}
+            display={"Eliminando plato..."}
+            color={normalGreen}
+          />
+          <Modal
+            visible={visible}
+            onDismiss={() => {
+              hideModal();
+              setFileObj(null);
+              setImage(null);
+            }}
+            contentContainerStyle={styles.modalContainer}
+          >
+            <View>
+              <ScrollView>
+                <View style={styles.modalViewTitle}>
+                  <Title style={{ fontSize: 23, fontWeight: "bold" }}>
+                    Añadir plato al menú
+                  </Title>
+                </View>
+                <Image
+                  source={{ uri: "data:image/jpeg;base64," + image }}
+                  style={styles.modalImage}
                 />
-                <Card.Content style={styles.cardTitleContent}>
-                  <View
-                    style={{ flex: 1, flexDirection: "row", width: "100%" }}
+                <TextInput
+                  style={styles.modalForm}
+                  mode={"outlined"}
+                  theme={{
+                    colors: {
+                      primary: "black",
+                    },
+                    roundness: 60,
+                  }}
+                  label="Nombre"
+                  onChangeText={(text) => {
+                    handleChange({ name: "name", value: text });
+                  }}
+                  maxLength={25}
+                  editable={!fetching}
+                />
+                <TextInput
+                  style={styles.modalForm}
+                  mode={"outlined"}
+                  theme={{
+                    colors: {
+                      primary: "black",
+                    },
+                    roundness: 60,
+                  }}
+                  label="Descripción"
+                  onChangeText={(text) => {
+                    handleChange({ name: "description", value: text });
+                  }}
+                  maxLength={200}
+                  multiline={true}
+                  editable={!fetching}
+                />
+                <Error error={fileObjError} />
+                <View style={{ paddingHorizontal: 60 }}>
+                  <Button
+                    style={{
+                      ...styles.modalButton,
+                      backgroundColor: palidGreen,
+                    }}
+                    onPress={pickImage}
+                    disabled={fetching}
+                    mode="contained"
                   >
+                    <Text style={styles.modalButtonText}>escoger imágen</Text>
+                  </Button>
+                  <Button
+                    style={{
+                      ...styles.modalButton,
+                      backgroundColor: normalGreen,
+                    }}
+                    onPress={handleAddDishModalError}
+                    disabled={fetching}
+                    mode="contained"
+                  >
+                    <Text style={styles.modalButtonText}>guardar</Text>
+                  </Button>
+                </View>
+              </ScrollView>
+            </View>
+            <Loading
+              loading={modalLoading}
+              display={"Añadiendo plato..."}
+              color={normalGreen}
+            />
+          </Modal>
+        </Portal>
+        <View
+          style={{
+            marginBottom: 20,
+            backgroundColor: "white",
+            borderBottomRightRadius: 60,
+            borderBottomLeftRadius: 60,
+            elevation: 6,
+          }}
+        >
+          <View style={styles.headerView}>
+            <View style={styles.headerFontView}>
+              <Title style={styles.headerFont}>Menú</Title>
+            </View>
+            <View style={styles.iconView}>
+              <IconButton
+                icon="logout-variant"
+                color={palidGreen}
+                size={35}
+                onPress={() => {
+                  dispatch(startLogout());
+                }}
+              />
+            </View>
+          </View>
+          <Button
+            style={{
+              ...styles.button,
+              backgroundColor: palidGreen,
+              marginBottom: 20,
+            }}
+            onPress={showModal}
+            mode="contained"
+          >
+            <Text style={styles.buttonText}>agregar plato</Text>
+          </Button>
+        </View>
+        {menuImages ? (
+          <ScrollView style={{ flex: 1 }}>
+            {menuImages.map((data, index) => {
+              return (
+                <Card key={index} style={styles.cardContainer}>
+                  <Card.Cover
+                    source={{
+                      uri: "data:image/jpeg;base64," + data.dishPicture,
+                    }}
+                    style={{ borderRadius: 5 }}
+                  />
+                  <Card.Content style={styles.cardTitleContent}>
                     <View
-                      style={{
-                        flexDirection: "column",
-                        flex: 3,
-                      }}
+                      style={{ flex: 1, flexDirection: "row", width: "100%" }}
                     >
-                      <Title style={{ alignSelf: "flex-start" }}>
-                        {data.name}
-                      </Title>
-                      <Paragraph style={{ alignSelf: "flex-start" }}>
-                        {data.description}
-                      </Paragraph>
-                    </View>
-                    <View
-                      style={{
-                        flex: 1,
-                        alignItems: "flex-end",
-                      }}
-                    >
-                      <IconButton
-                        icon="delete"
-                        color={normalGreen}
-                        size={35}
-                        onPress={() => {
-                          deleteDish(data.id);
+                      <View
+                        style={{
+                          flexDirection: "column",
+                          flex: 3,
                         }}
-                      />
+                      >
+                        <Title style={{ alignSelf: "flex-start" }}>
+                          {data.name}
+                        </Title>
+                        <Paragraph style={{ alignSelf: "flex-start" }}>
+                          {data.description}
+                        </Paragraph>
+                      </View>
+                      <View
+                        style={{
+                          flex: 1,
+                          alignItems: "flex-end",
+                        }}
+                      >
+                        <IconButton
+                          icon="delete"
+                          color={palidGreen}
+                          size={35}
+                          onPress={() => {
+                            deleteDish(data.id);
+                          }}
+                        />
+                      </View>
                     </View>
-                  </View>
-                </Card.Content>
-              </Card>
-            );
-          })}
-        </ScrollView>
-      ) : (
-        <ScrollView
-          style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-        ></ScrollView>
-      )}
+                  </Card.Content>
+                </Card>
+              );
+            })}
+          </ScrollView>
+        ) : (
+          <ScrollView
+            style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.2)" }}
+          ></ScrollView>
+        )}
+      </ImageBackground>
     </View>
   );
 };
@@ -365,11 +393,13 @@ const MenuAdmin = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
   },
   headerView: {
-    marginVertical: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
     flexDirection: "row",
+    backgroundColor: "white",
   },
   headerFontView: {
     width: "80%",
@@ -378,7 +408,7 @@ const styles = StyleSheet.create({
   },
   headerFont: {
     fontSize: 30,
-    marginLeft: 10,
+    fontWeight: "bold",
   },
   iconView: {
     width: "20%",
@@ -386,17 +416,18 @@ const styles = StyleSheet.create({
     alignItems: "flex-end",
   },
   modalContainer: {
-    width: "80%",
-    height: "80%",
-    padding: 10,
+    width: "90%",
+    height: "90%",
+    padding: 20,
+    justifyContent: "center",
     alignSelf: "center",
     backgroundColor: "white",
-    borderRadius: 10,
+    borderRadius: 30,
   },
   modalImage: {
     width: "100%",
-    height: 200,
-    borderRadius: 10,
+    height: 150,
+    borderRadius: 30,
     backgroundColor: normalGray,
   },
   modalForm: {
@@ -405,18 +436,19 @@ const styles = StyleSheet.create({
   },
   modalViewTitle: {
     alignItems: "center",
+    marginBottom: 5,
   },
   modalButton: {
     marginTop: 10,
-    borderRadius: 10,
+    borderRadius: 60,
   },
   modalButtonText: {
     color: normalGray,
     fontWeight: "bold",
   },
   button: {
-    marginHorizontal: 50,
-    borderRadius: 10,
+    marginHorizontal: 90,
+    borderRadius: 60,
   },
   buttonText: {
     color: normalGray,
@@ -440,12 +472,19 @@ const styles = StyleSheet.create({
     fontWeight: "500",
   },
   cardContainer: {
-    margin: 10,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    elevation: 6,
   },
   cardTitleContent: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
   },
 });
 

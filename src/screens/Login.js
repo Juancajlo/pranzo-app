@@ -101,6 +101,7 @@ const Login = ({ navigation }) => {
             colors: {
               primary: emailColorError,
             },
+            roundness: 60,
           }}
           label="Correo"
           value={email}
@@ -117,6 +118,7 @@ const Login = ({ navigation }) => {
             colors: {
               primary: passwordColorError,
             },
+            roundness: 60,
           }}
           label="Contraseña"
           value={password}
@@ -125,29 +127,31 @@ const Login = ({ navigation }) => {
           secureTextEntry
         />
         <Error error={passwordError} />
-        <Button
-          style={{ ...styles.button, backgroundColor: palidGreen }}
-          onPress={() => {
-            try {
-              handleSubmit(email, password);
-            } catch (e) {
-              setLoading(false);
-              console.log("Error en botón entrar:" + e.message);
-            }
-          }}
-          mode="contained"
-        >
-          <Text style={styles.buttonText}>entrar</Text>
-        </Button>
-        <Button
-          style={{ ...styles.button, backgroundColor: normalGreen }}
-          onPress={() => {
-            navigation.navigate("Presentation");
-          }}
-          mode="contained"
-        >
-          <Text style={styles.buttonText}>volver</Text>
-        </Button>
+        <View style={{ paddingHorizontal: 60 }}>
+          <Button
+            style={{ ...styles.button, backgroundColor: normalGreen }}
+            onPress={() => {
+              try {
+                handleSubmit(email, password);
+              } catch (e) {
+                setLoading(false);
+                console.log("Error en botón entrar:" + e.message);
+              }
+            }}
+            mode="contained"
+          >
+            <Text style={styles.buttonText}>entrar</Text>
+          </Button>
+          <Button
+            style={{ ...styles.button, backgroundColor: palidGreen }}
+            onPress={() => {
+              navigation.navigate("Presentation");
+            }}
+            mode="contained"
+          >
+            <Text style={styles.buttonText}>volver</Text>
+          </Button>
+        </View>
       </ScrollView>
       <Loading loading={loading} display={"Cargando..."} color={normalGreen} />
     </View>
@@ -162,19 +166,19 @@ const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 10,
+    padding: 20,
   },
   header: {
     marginBottom: 20,
     fontSize: 30,
+    fontWeight: "bold",
   },
   form: {
-    marginTop: 10,
-    backgroundColor: "white",
+    marginTop: 5,
   },
   button: {
     marginTop: 10,
-    borderRadius: 10,
+    borderRadius: 60,
   },
   buttonText: {
     color: normalGray,
