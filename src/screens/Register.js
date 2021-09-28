@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { ScrollView, StyleSheet, View, Alert } from "react-native";
+import { ScrollView, View, Alert } from "react-native";
 import { TextInput, Button, Text, Title } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
-import { normalGreen, palidGreen, normalGray } from "../utils/colors";
+import { styles } from "../styles/Register";
+import { normalGreen, palidGreen } from "../utils/colors";
 import Error from "../components/Error";
 import Loading from "../components/Loading";
 import { startRegister } from "../actions/auth";
@@ -525,33 +526,5 @@ const Register = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "white",
-  },
-  scrollContainer: {
-    flexGrow: 1,
-    justifyContent: "center",
-    padding: 20,
-  },
-  header: {
-    marginBottom: 20,
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  form: {
-    marginTop: 10,
-  },
-  button: {
-    marginTop: 10,
-    borderRadius: 60,
-  },
-  buttonText: {
-    color: normalGray,
-    fontWeight: "bold",
-  },
-});
 
 export default Register;

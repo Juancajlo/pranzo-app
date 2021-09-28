@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import {
-  View,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  ImageBackground,
-} from "react-native";
+import { View, ScrollView, Alert, ImageBackground } from "react-native";
 import {
   IconButton,
   Title,
@@ -17,10 +11,12 @@ import {
 } from "react-native-paper";
 import { useDispatch, useSelector } from "react-redux";
 
-import { palidGreen, normalGray, normalGreen } from "../../utils/colors";
+import { styles } from "../../styles/client/MenuClient";
+import { palidGreen } from "../../utils/colors";
 import { DATABASE_URL } from "../../config/";
 import { login, startLogout } from "../../actions/auth";
 import { onAddItem, cartLogout } from "../../actions/cart";
+import { startGettingPrice } from "../../actions/money";
 
 const MenuClient = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -30,6 +26,7 @@ const MenuClient = ({ navigation }) => {
 
   useEffect(() => {
     loadingMenu();
+    dispatch(startGettingPrice());
   }, []);
 
   useEffect(() => {
@@ -175,50 +172,5 @@ const MenuClient = ({ navigation }) => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.03)",
-  },
-  headerView: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-  },
-  headerFontView: {
-    width: "80%",
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-  headerFont: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  subHeaderFont: {
-    fontSize: 15,
-    marginBottom: 20,
-  },
-  iconView: {
-    width: "20%",
-    justifyContent: "flex-start",
-    alignItems: "flex-end",
-  },
-  cardContainer: {
-    marginHorizontal: 20,
-    marginBottom: 20,
-    elevation: 6,
-  },
-  cardTitleContent: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-});
 
 export default MenuClient;

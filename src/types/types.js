@@ -7,4 +7,6 @@ export const types = {
   increment: "[Cart] Item added",
   decrement: "[Cart] Item deleted",
   cartLogout: "[Cart] logout",
+
+  price: "[Money] price",
 };

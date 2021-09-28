@@ -1,10 +1,11 @@
 import React from "react";
-import { View, StyleSheet, ScrollView, ImageBackground } from "react-native";
+import { View, ScrollView, ImageBackground } from "react-native";
 import { IconButton, Title, Card, Button, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import { styles } from "../../styles/admin/AccountsAdmin";
 import { startLogout } from "../../actions/auth";
-import { palidGreen, normalGray, normalGreen } from "../../utils/colors";
+import { palidGreen } from "../../utils/colors";
 
 const AccountsAdmin = () => {
   const dispatch = useDispatch();
@@ -59,7 +60,7 @@ const AccountsAdmin = () => {
                   fontSize: 21,
                 }}
               >
-                No tienes cuentas bancarias
+                Aún no tienes cuentas bancarias
               </Title>
             </Card.Content>
           </Card>
@@ -68,54 +69,5 @@ const AccountsAdmin = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.03)",
-  },
-  headerView: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-  },
-  headerFontView: {
-    width: "80%",
-    justifyContent: "center",
-    alignItems: "flex-start",
-  },
-  headerFont: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  iconView: {
-    width: "20%",
-    justifyContent: "center",
-    alignItems: "flex-end",
-  },
-  cardContainer: {
-    margin: 20,
-    borderRadius: 30,
-    elevation: 6,
-  },
-  cardTitleContent: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  button: {
-    marginHorizontal: 50,
-    borderRadius: 60,
-  },
-  buttonText: {
-    color: normalGray,
-    fontWeight: "bold",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-});
 
 export default AccountsAdmin;

@@ -1,15 +1,11 @@
 import React, { useState } from "react";
-import { View, StyleSheet, ScrollView, ImageBackground } from "react-native";
+import { View, ScrollView, ImageBackground } from "react-native";
 import { IconButton, Title, Card, Chip, Text } from "react-native-paper";
 import { useDispatch } from "react-redux";
 
+import { styles } from "../../styles/admin/ManageAdmin";
 import { startLogout } from "../../actions/auth";
-import {
-  palidGreen,
-  normalGray,
-  normalGreen,
-  darkPalidGreen,
-} from "../../utils/colors";
+import { palidGreen, normalGray, darkPalidGreen } from "../../utils/colors";
 
 const ManageAdmin = () => {
   const dispatch = useDispatch();
@@ -100,49 +96,5 @@ const ManageAdmin = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.03)",
-  },
-  image: {
-    flex: 1,
-    resizeMode: "cover",
-    justifyContent: "center",
-  },
-  headerView: {
-    padding: 20,
-    flexDirection: "row",
-    width: "100%",
-    backgroundColor: "white",
-    borderBottomLeftRadius: 60,
-    borderBottomRightRadius: 60,
-    elevation: 6,
-  },
-  headerFontView: {
-    width: "80%",
-    justifyContent: "center",
-    alignSelf: "center",
-  },
-  headerFont: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
-  iconView: {
-    width: "20%",
-  },
-  cardContainer: {
-    marginHorizontal: 20,
-    marginVertical: 5,
-    borderRadius: 30,
-    elevation: 6,
-  },
-  cardTitleContent: {
-    flexDirection: "column",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-});
 
 export default ManageAdmin;
